@@ -1,4 +1,4 @@
-Firt of all the api is not really a thing! 
+First of all the api is not really a thing! 
 
 To be honest it is the worst api that i ever seen!
 
