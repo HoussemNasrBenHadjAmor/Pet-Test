@@ -17,6 +17,7 @@ const App = () => {
   const [pets, setPets] = useState([]);
   const [error, setError] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [refresh, setRefresh] = useState(false);
 
   const getPets = async () => {
     const data = await getAllPets();
@@ -24,8 +25,9 @@ const App = () => {
   };
 
   useEffect(() => {
+    setRefresh(false);
     Promise.all([getPets()]).catch(() => setError(true));
-  }, []);
+  }, [refresh]);
 
   if (error) {
     return <ServerDown />;
@@ -37,7 +39,9 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={<Pets pets={pets} searchTerm={searchTerm} />}
+          element={
+            <Pets pets={pets} searchTerm={searchTerm} setRefresh={setRefresh} />
+          }
         />
         <Route path="/pet/:id" element={<PetDetail />} />
         <Route path="/create-pet" element={<CreatePet />} />

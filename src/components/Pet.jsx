@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import defaultImage from "../asset/default-image.png";
 
 import { TrashIcon } from "@heroicons/react/outline";
+import { deletePet } from "../lib/pets";
 
-const Pet = ({ pet: { id, category, photoUrls, tags } }) => {
+const Pet = ({ pet: { id, category, photoUrls, tags }, setRefresh }) => {
   const [hover, setHover] = useState(false);
 
   const Tags = ({ tag }) => (
@@ -47,10 +48,16 @@ const Pet = ({ pet: { id, category, photoUrls, tags } }) => {
         />
       )}
 
-      <div
-        className={`z-50 flex-initial sm:${hover ? "flex flex-col" : "hidden"}`}
-      >
-        <button className="absolute bottom-3 right-3 flex justify-center items-center bg-white rounded-full p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out">
+      <div className={`z-50 flex-initial md:${hover ? "flex" : "hidden"}`}>
+        <button
+          className="absolute bottom-3 right-3 flex justify-center items-center bg-white rounded-full p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            deletePet({ petId: id });
+            setRefresh(true);
+          }}
+        >
           <TrashIcon className="w-5 h-5" />
         </button>
 

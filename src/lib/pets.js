@@ -22,7 +22,15 @@ export const getOnePet = async (id) => {
 
 export const createPet = async (pet) => {
   try {
-    await axios.post(process.env.REACT_APP_API_URL, pet, {
+    await axios.post(process.env.REACT_APP_API_URL, pet);
+  } catch (error) {
+    return error;
+  }
+};
+
+export const deletePet = async (id) => {
+  try {
+    await axios.post(process.env.REACT_APP_API_URL, id, {
       headers: {
         api_key: "special-key",
       },

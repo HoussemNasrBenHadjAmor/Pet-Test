@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
-import { getOnePet } from "../lib/pets";
+import { deletePet, getOnePet } from "../lib/pets";
 
 import { ServerDown } from "./";
 
@@ -11,6 +11,7 @@ import { TrashIcon } from "@heroicons/react/outline";
 
 const PetDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [pet, setPet] = useState(null);
   const [error, setError] = useState(false);
 
@@ -58,7 +59,14 @@ const PetDetail = () => {
                 e.stopPropagation();
               }}
             >
-              <TrashIcon className="h-5 w-5" />
+              <TrashIcon
+                className="h-5 w-5"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  deletePet({ petId: pet?.id }).then(() => navigate("/"));
+                }}
+              />
             </button>
           </div>
 

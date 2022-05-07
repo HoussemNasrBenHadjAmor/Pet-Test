@@ -3,8 +3,6 @@ import { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { Oval } from "react-loader-spinner";
 
-import { v4 as uuidv4 } from "uuid";
-
 import { createPet } from "../lib/pets";
 
 import { ServerDown } from "./";
@@ -12,8 +10,6 @@ import { TrashIcon } from "@heroicons/react/outline";
 
 const CreatePet = () => {
   const fileTypes = ["JPG", "PNG", "JPEG"];
-
-  let tagsArray = [];
 
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -51,9 +47,9 @@ const CreatePet = () => {
         name: data.tags,
       };
 
-      tagsArray.push(tags);
+      setTagsA([...tagsA, tags]);
 
-      setTagsA(tagsArray);
+      setData({ ...data, tags: "" });
     }
   };
 
@@ -75,13 +71,16 @@ const CreatePet = () => {
       };
 
       createPet(pet)
-        .then(() => setLoading(false))
+        .then(() => {
+          setLoading(false);
+          resetFields();
+        })
         .catch(() => setError(true));
     }
   };
 
   const Tags = ({ tag }) => (
-    <div className="p-2 rounded-lg bg-gray-300">
+    <div className="p-2 rounded-lg bg-gray-300 raltive">
       <p className="text-xs">{tag.name}</p>
     </div>
   );
